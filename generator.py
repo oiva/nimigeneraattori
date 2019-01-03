@@ -1,12 +1,17 @@
 """Generate Finnish names."""
-from random import random, randrange, sample
+from random import choice, random, randrange, sample
 from re import compile
 
 
-with open('data/firstnames.txt', 'r') as f:
-    firstNames = f.read()
-    firstNames = firstNames.split('\n')
-    firstNames = list(filter(None, firstNames))
+with open('data/firstnames-men.txt', 'r') as f:
+    male_first_names = f.read()
+    male_first_names = male_first_names.split('\n')
+    male_first_names = list(filter(None, male_first_names))
+
+with open('data/firstnames-women.txt', 'r') as f:
+    female_first_names = f.read()
+    female_first_names = female_first_names.split('\n')
+    female_first_names = list(filter(None, female_first_names))
 
 with open('data/lastnames.txt', 'r') as f:
     lastNames = f.read()
@@ -14,11 +19,11 @@ with open('data/lastnames.txt', 'r') as f:
     lastNames = list(filter(None, lastNames))
 
 
-def generate(amount):
+def generate(amount, sex=None):
     """Generate a number <amount> of names."""
     names = []
     for i in range(0, amount):
-        first_name = get_first_name()
+        first_name = get_first_name(sex)
         last_name = get_last_name(first_name)
 
         names.append(first_name + ' ' + last_name)
@@ -26,9 +31,14 @@ def generate(amount):
     return names
 
 
-def get_first_name():
+def get_first_name(sex=None):
     """Return a random name from list of first names."""
-    return firstNames[randrange(0, len(firstNames))]
+    if sex is None:
+        sex = choice(['male', 'female'])
+    if sex == 'male':
+        return male_first_names[randrange(0, len(male_first_names))]
+    else:
+        return female_first_names[randrange(0, len(female_first_names))]
 
 
 def get_last_name(first_name):
