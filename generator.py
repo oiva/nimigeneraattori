@@ -79,11 +79,17 @@ def get_last_name(first_name):
     """Walk through names and check on each name if you should stop. Since
        the matching names are first they are more likely to be selected."""
     for i in range(0, 10):
-        if random() >= 0.5:
+        if random() >= 0.7:
             return last_names_sorted[i]
 
     return last_names_sorted[0]
 
 
-names = generate(3)
-print(names)
+# test how unique the names are
+names = []
+for i in range(0, 1000):
+    name = generate(1)
+    if name not in names:
+        names.append(name)
+
+print(len(names))

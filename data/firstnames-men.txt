@@ -2,6 +2,7 @@ Anti
 Armas
 Armo
 Aulis
+Asko
 Bamse
 Ben
 Björn
@@ -55,4 +56,7 @@ Särmä
 Titto
 Torvi
 Xanteri
+Ynselmi
 Zorro
+Åke
+Äijä
