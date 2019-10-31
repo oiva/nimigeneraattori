@@ -21,9 +21,9 @@ Roine Rymy-Eetu
 Hyvä Utö
 ```
 
-Specify sex (female, male, unisex)
+Specify gender of name (female, male, unisex)
 ```
-$ python generator.py --sex female
+$ python generator.py --gender female
 
 Martina Mastodontti
 ```

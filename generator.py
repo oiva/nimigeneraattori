@@ -14,12 +14,12 @@ def read_name_file(filename):
         return names
 
 
-def generate(amount, sex=None, force_seed=None):
+def generate(amount, gender=None, force_seed=None):
     """Generate a number <amount> of names."""
     names = []
     for i in range(0, amount):
         seed(force_seed)
-        first_name = get_first_name(sex)
+        first_name = get_first_name(gender)
         last_name = get_last_name(first_name)
 
         names.append(first_name + ' ' + last_name)
@@ -27,13 +27,13 @@ def generate(amount, sex=None, force_seed=None):
     return names
 
 
-def get_first_name(sex=None):
+def get_first_name(gender=None):
     """Return a random name from list of first names."""
-    if sex is None:
-        sex = choice(['male', 'female', 'unisex'])
-    if sex == 'male':
+    if gender is None:
+        gender = choice(['male', 'female', 'unisex'])
+    if gender == 'male':
         return male_first_names[randrange(0, len(male_first_names))]
-    elif sex == 'female':
+    elif gender == 'female':
         return female_first_names[randrange(0, len(female_first_names))]
     else:
         return unisex_first_names[randrange(0, len(unisex_first_names))]
@@ -85,14 +85,14 @@ def get_last_name(first_name):
 
 parser = argparse.ArgumentParser(description='Generate names')
 parser.add_argument("-n", default=1, help="Number of names to generate")
-parser.add_argument("--sex", default=None,
-                    help="Sex of name (male, female, unisex)"
+parser.add_argument("--gender", default=None,
+                    help="Gender of name (male, female, unisex)"
                     )
 parser.add_argument("--seed", default=None, help="Custom seed for random")
 
 args = parser.parse_args()
 n = int(args.n)
-sex = args.sex
+gender = args.gender
 custom_seed = args.seed
 
 male_first_names = read_name_file('data/firstnames-men.txt')
@@ -103,7 +103,7 @@ last_names = read_name_file('data/lastnames.txt')
 # test how unique the names are
 names = []
 for i in range(0, n):
-    name = generate(1, sex, custom_seed)
+    name = generate(1, gender, custom_seed)
     name = name[0]
     if name not in names:
         names.append(name)
