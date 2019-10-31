@@ -5,20 +5,13 @@ from random import choice, random, randrange, sample, seed
 from re import compile
 
 
-with open('data/firstnames-men.txt', 'r') as f:
-    male_first_names = f.read()
-    male_first_names = male_first_names.split('\n')
-    male_first_names = list(filter(None, male_first_names))
-
-with open('data/firstnames-women.txt', 'r') as f:
-    female_first_names = f.read()
-    female_first_names = female_first_names.split('\n')
-    female_first_names = list(filter(None, female_first_names))
-
-with open('data/lastnames.txt', 'r') as f:
-    lastNames = f.read()
-    lastNames = lastNames.split('\n')
-    lastNames = list(filter(None, lastNames))
+def read_name_file(filename):
+    """Read names from a file containing one name per line."""
+    with open(filename, 'r') as f:
+        names = f.read()
+        names = names.split('\n')
+        names = list(filter(None, names))
+        return names
 
 
 def generate(amount, sex=None, force_seed=None):
@@ -37,11 +30,13 @@ def generate(amount, sex=None, force_seed=None):
 def get_first_name(sex=None):
     """Return a random name from list of first names."""
     if sex is None:
-        sex = choice(['male', 'female'])
+        sex = choice(['male', 'female', 'unisex'])
     if sex == 'male':
         return male_first_names[randrange(0, len(male_first_names))]
-    else:
+    elif sex == 'female':
         return female_first_names[randrange(0, len(female_first_names))]
+    else:
+        return unisex_first_names[randrange(0, len(unisex_first_names))]
 
 
 def get_last_name(first_name):
@@ -76,7 +71,7 @@ def get_last_name(first_name):
 
         return score
 
-    last_names_random = sample(lastNames, len(lastNames))
+    last_names_random = sample(last_names, len(last_names))
     last_names_sorted = sorted(last_names_random, key=name_comparator)
 
     """Walk through names and check on each name if you should stop. Since
@@ -90,13 +85,20 @@ def get_last_name(first_name):
 
 parser = argparse.ArgumentParser(description='Generate names')
 parser.add_argument("-n", default=1, help="Number of names to generate")
-parser.add_argument("--sex", default=None, help="Sex of name (male, female)")
+parser.add_argument("--sex", default=None,
+                    help="Sex of name (male, female, unisex)"
+                    )
 parser.add_argument("--seed", default=None, help="Custom seed for random")
 
 args = parser.parse_args()
 n = int(args.n)
 sex = args.sex
 custom_seed = args.seed
+
+male_first_names = read_name_file('data/firstnames-men.txt')
+female_first_names = read_name_file('data/firstnames-women.txt')
+unisex_first_names = read_name_file('data/firstnames-unisex.txt')
+last_names = read_name_file('data/lastnames.txt')
 
 # test how unique the names are
 names = []
