@@ -1,5 +1,7 @@
 """Generate Finnish names."""
-from random import choice, random, randrange, sample
+
+import argparse
+from random import choice, random, randrange, sample, seed
 from re import compile
 
 
@@ -19,10 +21,11 @@ with open('data/lastnames.txt', 'r') as f:
     lastNames = list(filter(None, lastNames))
 
 
-def generate(amount, sex=None):
+def generate(amount, sex=None, force_seed=None):
     """Generate a number <amount> of names."""
     names = []
     for i in range(0, amount):
+        seed(force_seed)
         first_name = get_first_name(sex)
         last_name = get_last_name(first_name)
 
@@ -85,11 +88,23 @@ def get_last_name(first_name):
     return last_names_sorted[0]
 
 
+parser = argparse.ArgumentParser(description='Generate names')
+parser.add_argument("-n", default=1, help="Number of names to generate")
+parser.add_argument("--sex", default=None, help="Sex of name (male, female)")
+parser.add_argument("--seed", default=None, help="Custom seed for random")
+
+args = parser.parse_args()
+n = int(args.n)
+sex = args.sex
+custom_seed = args.seed
+
 # test how unique the names are
 names = []
-for i in range(0, 1000):
-    name = generate(1)
+for i in range(0, n):
+    name = generate(1, sex, custom_seed)
+    name = name[0]
     if name not in names:
         names.append(name)
 
-print(len(names))
+
+print("\n".join(names))
