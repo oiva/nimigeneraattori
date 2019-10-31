@@ -14,7 +14,7 @@ def read_name_file(filename):
         return names
 
 
-def generate(amount, gender=None, force_seed=None):
+def get_full_name(amount, gender=None, force_seed=None):
     """Generate a number <amount> of names."""
     names = []
     for i in range(0, amount):
@@ -103,7 +103,7 @@ last_names = read_name_file('data/lastnames.txt')
 # test how unique the names are
 names = []
 for i in range(0, n):
-    name = generate(1, gender, custom_seed)
+    name = get_full_name(1, gender, custom_seed)
     name = name[0]
     if name not in names:
         names.append(name)
