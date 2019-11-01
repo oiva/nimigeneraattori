@@ -1,6 +1,10 @@
+#!/usr/bin/env python
+# -*- coding: utf-8 -*-
+
 """Generate Finnish names."""
 
 import argparse
+from os import path
 from random import choice, random, randrange, sample, seed
 from re import compile
 
@@ -95,10 +99,11 @@ n = int(args.n)
 gender = args.gender
 custom_seed = args.seed
 
-male_first_names = read_name_file('data/firstnames-men.txt')
-female_first_names = read_name_file('data/firstnames-women.txt')
-unisex_first_names = read_name_file('data/firstnames-unisex.txt')
-last_names = read_name_file('data/lastnames.txt')
+script_path = path.dirname(path.realpath(__file__)) + '/'
+male_first_names = read_name_file(script_path + 'data/firstnames-men.txt')
+female_first_names = read_name_file(script_path + 'data/firstnames-women.txt')
+unisex_first_names = read_name_file(script_path + 'data/firstnames-unisex.txt')
+last_names = read_name_file(script_path + 'data/lastnames.txt')
 
 # test how unique the names are
 names = []
